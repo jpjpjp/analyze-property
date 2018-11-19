@@ -66,16 +66,18 @@ Start Jupyter from the working directory (the project directory with these scrip
 
     jupyter notebook 
 
-This will open up a page in your default browser.  From there choose the file `analyze_property_transactions.ipynb`.  It should look something like:
+This will open up a page in your default browser.  It should look something like:
 
 ![Initial Jupyter Page](/tutorial_images/InitialJupyterPage.png)
+
+From there click the link for the file `analyze_property_transactions.ipynb`.  It should open in a new tab.
 
 Once this file is open you can begin running the spending analysis, cell by cell.
 In the tab that Jupyter opened for you when you selected the notebook, click and highlight the very first cell, it should look something like:
 
 ![First Jupyter Cell](/tutorial_images/JupyterFirstCell.png)
 
-Note that it sets the input file to "transactions.csv".  This was generated in the step above, but you can change it to whatever you like.  Similarly, the variable CATEGORY is set to 'Label'.  If, for example you have a dedicated mint account for your property and categorize directly in mint, you can change this to 'Category'.
+Note that it sets the input file to "transactions.csv", but you can change it to whatever you named your transaction file.  Similarly, the variable CATEGORY is set to 'Label'.  If, for example you have a dedicated mint account for your property and categorize directly in mint, you can change this to 'Category'.
 
 With the cell highlighted, run the cell either by clicking on the Run button or by using the keyboard shortcut Shift+Enter.   
 
@@ -85,9 +87,13 @@ Jupyter will automatically shift the focus to the next cell, so you may need to 
 
 You should, see the first few lines of a data frame that looks like each row has a single trasaction in it it.  If you have this you are ready for the next cell. 
 
-Highlight and run the second cell which will attempt to adjust an "credits" in the transaction data for expense categories.  As an example if you returned some tools to the store, the "income" associated with this return will be used to offest your expense.
+Highlight and run the second cell which will attempt to adjust any "credits" in the transaction data for expense categories.  As an example if you returned some tools to the store, the "income" associated with this return will be used to offest your expense.
 
-Each time an adjustment like this is made the details are printed out.   Examine the output to make sure it all makes sense and adjust the transaction data as needed.
+Each time an adjustment like this is made the details are printed out.  
+
+![After Credit Adjustment](/tutorial_images/AdjustCredits.png)
+
+Examine the output to make sure it all makes sense and adjust the transaction data as needed.
 
 Finally, once the income and expense data is ready, you can move through the remaining cells to perform following:
 * set the colors for categories so they are consistent across visualizations
@@ -99,6 +105,7 @@ Finally, once the income and expense data is ready, you can move through the rem
 The following notebooks may also be of use or may be too specific to the author's particular situation.   Feel free to try them out, no warranty is made and its likely I forgot to document stuff.
 
 * analyze_utility_transactions -- this notebook reads the same transaction input data but focuses on the utility information.   It is useful for a property owner whose units are individually metered, but who pays the bills for those meters.  It also assumes that tenants are responsible for utility costs above an amount specified in a utils-limits.csv (configurable in Cell 1 via the PATH_TO_UTILITY_LIMITS).   An example of this CSV file might be
+  
     | Unit        | Amount |
     |-------------|--------|
     |First Floor  | 100    |
