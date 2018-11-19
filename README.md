@@ -111,6 +111,7 @@ The following notebooks may also be of use or may be too specific to the author'
     |First Floor  | 100    |
     |Second Floor | 150    |
   
+* analyze_security -- show the security collected and returned for each unit.  Uses the same PATH_TO_RENTS file as described above
 * generate_supplemental_incom_and_loss_tax_info -- this notebook will read the transactions for a particular year (specified in Cell 1 via the TAX_YEAR variable), and attempts to output a CSV that can be used to fill out Schedule E Supplemental Income and Loss for your federal taxes.    Also specified in CELL 1 are:
   * MORTGAGE_INTEREST -- obtained from your lender
   * EST_DEPRECIATION -- obtained from prior year taxes or CPA
