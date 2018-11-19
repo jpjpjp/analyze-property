@@ -50,6 +50,7 @@ Optionally, some analysis can be performed at a per unit level.   In order for t
 
 1) When preparing the data as described above, add an additional column called "Unit" to the transation data.   When appropriate assign a transation to a unit name (ie: "1W" or "Upstairs").    Examples of unit specific transactions might be rent collected, security related transactions, or repairs specific to a unit.
 2) Create a csv File that enumerates all the units and the average monthly rent per year.   An example of what this file might look like is:
+   
    | Year | First Floor | Second Floor |
    |------|-------------|--------------|
    |2018  | 1000        | 1500         |
