@@ -17,19 +17,21 @@ Prerequisites:
 
 3) This will create the environment for the scripts to run in and download all necessary dependencies.   After this process completes run this command:
 
-    source activate analyze-property
-    
-This will "activate" the anaconda environment that will allow python to run.  (For those using an autoenv type utitlity, there is also a .env file for automatically activating the environment whenever the directory is entered.)
+    source activate analyze-property-jupyter
+
+This will "activate" the anaconda environment that will allow python to run.  (For those using an autoenv type utility, there is also a .env file for automatically activating the environment whenever the directory is entered.)
 
 ## Preparing the data
-This project was built using transaction data exported from Mint, although any CSV of transaction data could potentially be used.  My mechanism for managing the data in Mint is to assign all transactions related to a particular property to a single mint "Category" named after the property, and exporting all transacetions associated with that category to a CSV.  After the Mint Export, the csv is edited and a new column called "Label" is added which provides categorization.   
+
+This project was built using transaction data exported from Mint, although any CSV of transaction data could potentially be used.  My mechanism for managing the data in Mint is to assign all transactions related to a particular property to a single mint "Category" named after the property, and exporting all transactions associated with that category to a CSV.  After the Mint Export, the .csv is edited and a new column called "Label" is added which provides categorization.  
 
 The column name which provides the categorization information, is configurable in the project.  In analyze_property_transactions.ipynb edit the line:
 
 CATEGORY = "Label"
 
 In addition to a column which provides categorization information, this project assumes the following standard Mint fields are also available:
-* Date -- A string in datetime formate, ie: 01/05/2018
+
+* Date -- A string in python datetime format, ie: 01/05/2018
 * Description -- A description of the transaction
 * Amount - The amount of the transaction.  This will be interpreted as a float
 * Transaction Type -- Either "credit" or "debit" to indicate an expense or income.  The project currently expects at least one "credit" and one "debit" in any given year's worth of transaction.
@@ -41,14 +43,15 @@ While users are free to assign transactions to any category they like it this pr
 * Rent -- rental income
 * Security -- this category is used for security fees collected and returned and is also removed from the P&L analysis
 * Security_Kept -- this category is used for circumstances where a prior security deposit is kept and converted to income (usually to cover repair costs, etc)
-* Utiltities - if transactions are classified as Utilties, some additional analysis is done to compare costs (if the property owner pays utiltiy bills) and income (if tenants reimburse property owner)
+* Utilities - if transactions are classified as Utilities, some additional analysis is done to compare costs (if the property owner pays utility bills) and income (if tenants reimburse property owner)
 
 Finally, any category that has a "Transaction Type" of both "debit" and "credit" is assumed to be an expense, where the credits are ultimately subtracted from the debits to determine overall expense.   Categories that have only "credit" (ie: "Rent") are categorized as income.   The net of this is data that include "debits" in the "Rent" category may not work correctly without some data or code massaging.
 
 ## Preparing the unit specific data
+
 Optionally, some analysis can be performed at a per unit level.   In order for this to work the following additional steps need to be taken
 
-1) When preparing the data as described above, add an additional column called "Unit" to the transation data.   When appropriate assign a transation to a unit name (ie: "1W" or "Upstairs").    Examples of unit specific transactions might be rent collected, security related transactions, or repairs specific to a unit.
+1) When preparing the data as described above, add an additional column called "Unit" to the transaction data.   When appropriate assign a transaction to a unit name (ie: "1W" or "Upstairs").    Examples of unit specific transactions might be rent collected, security related transactions, or repairs specific to a unit.
 2) Create a csv File that enumerates all the units and the average monthly rent per year.   An example of what this file might look like is:
    
    | Year | First Floor | Second Floor |
@@ -62,7 +65,7 @@ If this step is excluded everything in the notebook should work as expected howe
 
 ## Analyzing the data
 
-Start Jupyter from the working directory (the project directory with these scripts):
+Start jupyter from the working directory (the project directory with these scripts):
 
     jupyter notebook 
 
@@ -79,43 +82,48 @@ In the tab that Jupyter opened for you when you selected the notebook, click and
 
 Note that it sets the input file to "transactions.csv", but you can change it to whatever you named your transaction file.  Similarly, the variable CATEGORY is set to 'Label'.  If, for example you have a dedicated mint account for your property and categorize directly in mint, you can change this to 'Category'.
 
-With the cell highlighted, run the cell either by clicking on the Run button or by using the keyboard shortcut Shift+Enter.   
+With the cell highlighted, run the cell either by clicking on the Run button or by using the keyboard shortcut Shift+Enter.
 
 Jupyter will automatically shift the focus to the next cell, so you may need to scroll up to see the output.  If all goes well you should now see the first five rows of the spending data loaded as a pandas dataframe:
 
 ![After Running First Jupyter Cell](/tutorial_images/AfterFirstCellRun.png)
 
-You should, see the first few lines of a data frame that looks like each row has a single trasaction in it it.  If you have this you are ready for the next cell. 
+You should, see the first few lines of a data frame that looks like each row has a single transaction in it it.  If you have this you are ready for the next cell.
 
-Highlight and run the second cell which will attempt to adjust any "credits" in the transaction data for expense categories.  As an example if you returned some tools to the store, the "income" associated with this return will be used to offest your expense.
+Highlight and run the second cell which will attempt to adjust any "credits" in the transaction data for expense categories.  As an example if you returned some tools to the store, the "income" associated with this return will be used to offset your expense.
 
-Each time an adjustment like this is made the details are printed out.  
+Each time an adjustment like this is made the details are printed out.  I like to eyeball this and make sure that I didn't make any mistakes labelling the data.  
 
 ![After Credit Adjustment](/tutorial_images/AdjustCredits.png)
 
 Examine the output to make sure it all makes sense and adjust the transaction data as needed.
 
 Finally, once the income and expense data is ready, you can move through the remaining cells to perform following:
+
 * set the colors for categories so they are consistent across visualizations
 * show overall expenses and income year over year
-* pie chart breakdown of expensese for each year
+* pie chart breakdown of expenses for each year
 * P&L year over year broken down by unit
 
 ## Additional functions not fully documented
+
 The following notebooks may also be of use or may be too specific to the author's particular situation.   Feel free to try them out, no warranty is made and its likely I forgot to document stuff.
 
-* analyze_utility_transactions -- this notebook reads the same transaction input data but focuses on the utility information.   It is useful for a property owner whose units are individually metered, but who pays the bills for those meters.  It also assumes that tenants are responsible for utility costs above an amount specified in a utils-limits.csv (configurable in Cell 1 via the PATH_TO_UTILITY_LIMITS).   An example of this CSV file might be
+* utilities-usage-report -- this notebook reads the same transaction input data but focuses on the utility information.   It is useful for a property owner whose units are individually metered, but who pays the bills for those meters.  It also assumes that tenants are responsible for utility costs above an amount specified in a utils-limits.csv (configurable in Cell 1 via the PATH_TO_UTILITY_LIMITS).  Example formatting:
   
     | Unit        | Amount |
     |-------------|--------|
     |First Floor  | 100    |
     |Second Floor | 150    |
+
+    This notebook generates a per unit report that can be shared with tenants to show any overage that they may owe for a given time period.  Before running the notebook set start_date and end_date in the first cell to specifiy the report range
   
 * analyze_security -- show the security collected and returned for each unit.  Uses the same PATH_TO_RENTS file as described above
-* generate_supplemental_incom_and_loss_tax_info -- this notebook will read the transactions for a particular year (specified in Cell 1 via the TAX_YEAR variable), and attempts to output a CSV that can be used to fill out Schedule E Supplemental Income and Loss for your federal taxes.    Also specified in CELL 1 are:
+* generate_supplemental_income_and_loss_tax_info -- this notebook will read the transactions for a particular year (specified in Cell 1 via the TAX_YEAR variable), and attempts to output a CSV that can be used to fill out Schedule E Supplemental Income and Loss for your federal taxes.    Also specified in CELL 1 are:
   * MORTGAGE_INTEREST -- obtained from your lender
   * EST_DEPRECIATION -- obtained from prior year taxes or CPA
-  * EST_AMMORTIZATION -- obtained from prior year taxes or CPA
+  * EST_AMORTIZATION -- obtained from prior year taxes or CPA
+* analyze_utility_transactions -- this notebook reads the same transaction input data but focuses on the utility information.   It is useful for a property owner whose units are individually metered, but who pays the bills for those meters.  It also assumes that tenants are responsible for utility costs above an amount specified in a utils-limits.csv (configurable in Cell 1 via the PATH_TO_UTILITY_LIMITS).   An example of this CSV file might be
 
 The Schedule E information is output to the OUTPUT_CSV file specified in Cell 1
 
