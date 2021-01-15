@@ -17,7 +17,7 @@ Prerequisites:
 
 3) This will create the environment for the scripts to run in and download all necessary dependencies.   After this process completes run this command:
 
-    source activate analyze-property
+    source activate analyze-property-jupyter
 
 This will "activate" the anaconda environment that will allow python to run.  (For those using an autoenv type utility, there is also a .env file for automatically activating the environment whenever the directory is entered.)
 
